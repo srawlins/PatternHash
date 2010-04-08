@@ -47,4 +47,26 @@ returned, but also interpolated with the first subgroup in the match. Allow me.
 cache["4MB"]   #=> "4 Megabytes"
 cache["16MB"]  #=> "16 Megabytes"
 cache["2GB"]   #=> "2 Gigabytes"
-cache["$20"]   #=> "20 dollars"</code></pre>
+cache["$20"]   #=> "20 dollars"
+
+names = PatternHash.new({
+          /My name is (.*)/ => "Hello %s",
+          /Your name is (.*)/ => "I am called %s"})
+names["My name is Sam"]        #=> "Hello Sam"
+names["Your name is HAL9000"]  #=> "I am called %s"</code></pre>
+
+Proc Values
+-----------
+
+If a String matches an existing Pattern key, and the corresponding value is a
+Proc, then the result of the Proc called is returned, sending the match to the
+Proc. Allow me.
+
+a = PatternHash.new({
+          /(\d+)KB/ => Proc.new {|kb| kb[0].to_i*1024},
+          /(\d+)MB/ => Proc.new {|mb| mb[0].to_i*1048576},
+          /(\d+)GB/ => Proc.new {|gb| gb[0].to_i*1073741824}})
+    a["5KB"]   #=>       5120
+    a["12KB"]  #=>      12288
+    a["314MB"] #=>  329252864
+    a["2GB"]   #=> 2147483648
