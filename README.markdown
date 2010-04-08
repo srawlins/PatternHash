@@ -62,11 +62,11 @@ If a String matches an existing Pattern key, and the corresponding value is a
 Proc, then the result of the Proc called is returned, sending the match to the
 Proc. Allow me.
 
-a = PatternHash.new({
+<pre><code>a = PatternHash.new({
           /(\d+)KB/ => Proc.new {|kb| kb[0].to_i*1024},
           /(\d+)MB/ => Proc.new {|mb| mb[0].to_i*1048576},
           /(\d+)GB/ => Proc.new {|gb| gb[0].to_i*1073741824}})
     a["5KB"]   #=>       5120
     a["12KB"]  #=>      12288
     a["314MB"] #=>  329252864
-    a["2GB"]   #=> 2147483648
+    a["2GB"]   #=> 2147483648</code></pre>
